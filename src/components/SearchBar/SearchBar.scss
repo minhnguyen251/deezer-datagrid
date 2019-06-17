@@ -1,0 +1,52 @@
+@import "../../sass/modules/variables";
+
+.search__ctn {
+	width: 100vw;
+	height: 100vh;
+
+	background-image: linear-gradient(to right, $deezerColor3, $deezerColor4);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	h1 {
+		font-weight: 100;
+		text-align: center;
+		font-style: italic;
+
+		padding: 0 1vw;
+		margin-top: 0;
+		font-size: 5vw;
+	}
+
+	.flexbox {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		align-items: center;
+
+		input {
+			width: 90%;
+			height: 10vh;
+			border: 0;
+			font-size: 3rem;
+			color: $mainTextColor;
+			&::placeholder {
+				font-weight: 100;
+				color: rgba($mainTextColor, 0.5);
+			}
+		}
+
+		button {
+			transition: 0.3s;
+			cursor: pointer;
+			img {
+				height: 10vh;
+			}
+			&:hover {
+				transform: rotate(360deg);
+			}
+		}
+	}
+}

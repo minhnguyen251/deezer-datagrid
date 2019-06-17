@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
-import './Result.scss';
+import './Error.scss';
 import Config from '../../Config';
 
-export default class Result extends Component {
+export default class Error extends Component {
+
     render() {
-        console.log(this.props.searchResult);
         return (
-            <div className="result__ctn">
+            <div className="error__ctn">
             </div>
         );
     }
 }
 
 Error.propTypes = {
-    searchResult: PropTypes.object
+    searchQuery: PropTypes.func
 };
