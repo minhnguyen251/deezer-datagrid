@@ -9,8 +9,11 @@ export default class SearchBar extends Component {
         this.getData = this.getData.bind(this);
     };
 
-    getData(e) {
-        e.preventDefault();
+    getData(evt) {
+        evt.preventDefault();
+
+        this.props.submitted();
+
         let searchVal = this.refInput.value;
         return fetch(
             `${Config.ENABLE_CORS_HEADER_URL + Config.API_URL}"${searchVal}"`,
@@ -22,9 +25,10 @@ export default class SearchBar extends Component {
                 }
             })
             .then(response => {
+                    this.props.loading();
                     response.json().then(data => this.props.searchQuery(data))
                 }
-            ).catch(message => this.props.errorScreen())
+            ).catch(message => this.props.errorScreen)
     }
 
     componentDidMount() {
@@ -33,17 +37,15 @@ export default class SearchBar extends Component {
 
     render() {
         return (
-            <div className="search__ctn">
+            <div className={`search__ctn ${this.props.submittedState ? 'search--submitted' : ''}`}>
                 <form onSubmit={this.getData}>
-                    <h1>{Config.TEXT.welcome}</h1>
-                    <div className="flexbox">
-                        <input type="text" ref={(input) => this.refInput = input} placeholder={Config.TEXT.search_input_placeholder}
-                               aria-label={Config.TEXT.search_input_placeholder}/>
+                    <input type="text" ref={(input) => this.refInput = input}
+                           placeholder={Config.TEXT.search_input_placeholder}
+                           aria-label={Config.TEXT.search_input_placeholder}/>
 
-                        <button type="submit">
-                            <img src={Config.IMAGE.search_btn} alt={Config.TEXT.search_btn}/>
-                        </button>
-                    </div>
+                    <button type="submit" name={Config.TEXT.search_btn}>
+                        <img src={Config.IMAGE.search_btn} alt={Config.TEXT.search_btn}/>
+                    </button>
                 </form>
 
             </div>
@@ -53,5 +55,7 @@ export default class SearchBar extends Component {
 
 SearchBar.propTypes = {
     searchQuery: PropTypes.func,
-    errorScreen: PropTypes.func
+    errorScreen: PropTypes.func,
+    loading: PropTypes.func,
+    handleSubmitted: PropTypes.func
 };

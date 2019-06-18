@@ -8,6 +8,7 @@ export default class Error extends Component {
     render() {
         return (
             <div className="error__ctn">
+                {Config.TEXT.error_message}
             </div>
         );
     }

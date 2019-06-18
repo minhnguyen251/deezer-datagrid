@@ -1,0 +1,7 @@
+@import "../../sass/modules/mixins";
+
+.result__ctn {
+	@include flexCenterAll;
+
+	height: 90vh;
+}

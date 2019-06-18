@@ -9,31 +9,30 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            result: false,
-            searching: true,
+            submitted: false,
+            loading: true,
             errorScreen: false,
-            data: []
+            songs: []
         }
     }
 
-    handleSearchQuery = (data) => {
-        this.setState({
-            result: true,
-            data: data
-        })
-    };
-
+    handleSearchQuery = (data) => {this.setState({songs: data.data})};
     handleErrorScreen = () => this.setState({errorScreen: true});
+    handleLoading = () => this.setState({loading: false});
+    handleSubmitted = () => this.setState({submitted: true});
 
     render() {
         return (
-            <div className="app__ctn">
+            <div className={`app__ctn ${this.state.submitted ? 'app--submitted' : ''}`}>
 
-                <SearchBar searchQuery={this.handleSearchQuery} searching={this.state.searching}
+                <SearchBar searchQuery={this.handleSearchQuery}
+                           loading={this.handleLoading}
+                           submitted={this.handleSubmitted}
+                           submittedState={this.state.submitted}
                            errorScreen={this.handleErrorScreen}/>
 
-                {this.state.result ?
-                    <Result searchResult={this.state.data}/>
+                {this.state.submitted ?
+                    <Result songs={this.state.songs} loading={this.state.loading}/>
                     : null
                 }
 

@@ -1,1 +1,19 @@
 @import 'sass/reset.scss';
+@import 'sass/modules/mixins.scss';
+
+.app {
+	&__ctn {
+		display: flex;
+		flex-direction: column;
+		width: 100vw;
+		height: 100vh;
+
+		@include smoothTransition;
+
+		background-image: linear-gradient(to right, $deezerColor1, $deezerColor2);
+	}
+
+	&--submitted {
+		background-image: linear-gradient(to right, $deezerColor3, $deezerColor4);
+	}
+}

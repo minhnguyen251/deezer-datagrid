@@ -7,10 +7,10 @@ const Config = {
     },
 
     TEXT: {
-        welcome: 'Just relax !',
         search_btn: 'Search Button',
         error_message: 'Server busy. Please try again later',
-        search_input_placeholder: 'Type a song name'
+        search_input_placeholder: 'Relax and take a song',
+        loading: 'Loading icon'
     }
 };
 export default Config;

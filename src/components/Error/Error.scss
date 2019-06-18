@@ -1,0 +1,6 @@
+@import "../../sass/modules/mixins";
+
+.error__ctn {
+	background: rgba(black, 0.9);
+	@include flexCenterAll;
+}

@@ -1,52 +1,68 @@
 @import "../../sass/modules/variables";
+@import "../../sass/modules/mixins";
 
-.search__ctn {
-	width: 100vw;
-	height: 100vh;
+.search {
+	&__ctn {
+		width: 100vw;
+		height: 100vh;
 
-	background-image: linear-gradient(to right, $deezerColor3, $deezerColor4);
+		@include flexCenterAll;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+		@include smoothTransition;
 
-	h1 {
-		font-weight: 100;
-		text-align: center;
-		font-style: italic;
+		h1 {
+			font-weight: 100;
+			text-align: center;
+			font-style: italic;
 
-		padding: 0 1vw;
-		margin-top: 0;
-		font-size: 5vw;
-	}
+			padding: 0 1vw;
+			margin-top: 0;
+			font-size: 5vw;
+		}
 
-	.flexbox {
-		display: flex;
-		width: 100%;
-		justify-content: center;
-		align-items: center;
+		form {
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
 
-		input {
-			width: 90%;
-			height: 10vh;
-			border: 0;
-			font-size: 3rem;
-			color: $mainTextColor;
-			&::placeholder {
-				font-weight: 100;
-				color: rgba($mainTextColor, 0.5);
+			@include smoothTransition;
+
+			input {
+				width: 90%;
+				height: 10vh;
+				border: 0;
+				font-size: 3rem;
+				color: $mainTextColor;
+
+				&::placeholder {
+					font-weight: 100;
+					color: rgba($mainTextColor, 0.5);
+				}
+			}
+
+			button {
+				@include smoothTransition;
+				cursor: pointer;
+
+				img {
+					height: 10vh;
+				}
+
+				&:hover {
+					transform: rotate3d(1, 1, 0, 360deg);
+				}
 			}
 		}
 
-		button {
-			transition: 0.3s;
-			cursor: pointer;
-			img {
-				height: 10vh;
-			}
-			&:hover {
-				transform: rotate(360deg);
-			}
+	}
+
+	//When user submits the search form
+	&--submitted {
+		height: 10vh;
+		align-items: flex-start;
+		form {
+			margin-top: 2vh;
+			transform: scale(0.5);
 		}
 	}
 }
