@@ -3,5 +3,5 @@
 .result__ctn {
 	@include flexCenterAll;
 
-	height: 90vh;
+	min-height: 90vh;
 }

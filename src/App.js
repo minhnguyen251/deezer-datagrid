@@ -4,39 +4,42 @@ import './App.scss';
 import SearchBar from './components/SearchBar/SearchBar';
 import Result from './components/Result/Result';
 import Error from './components/Error/Error';
+import Loading from "./components/Loading/Loading";
 
 export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            submitted: false,
-            loading: true,
-            errorScreen: false,
+            isLoading: false,
+            isReceivedSongs: false,
+            isErrorScreen: false,
             songs: []
         }
     }
 
-    handleSearchQuery = (data) => {this.setState({songs: data.data})};
-    handleErrorScreen = () => this.setState({errorScreen: true});
-    handleLoading = () => this.setState({loading: false});
-    handleSubmitted = () => this.setState({submitted: true});
+    handleLoading = () => this.setState({isLoading: !this.state.isLoading});
+    handleSearchQuery = (data) => this.setState({songs: data, isReceivedSongs: true});
+    handleErrorScreen = () => this.setState({isErrorScreen: true});
 
     render() {
         return (
-            <div className={`app__ctn ${this.state.submitted ? 'app--submitted' : ''}`}>
+            <div className={`app__ctn ${this.state.isSubmitted ? 'app--submitted' : ''}`}>
 
                 <SearchBar searchQuery={this.handleSearchQuery}
                            loading={this.handleLoading}
-                           submitted={this.handleSubmitted}
-                           submittedState={this.state.submitted}
                            errorScreen={this.handleErrorScreen}/>
 
-                {this.state.submitted ?
-                    <Result songs={this.state.songs} loading={this.state.loading}/>
+                {this.state.isLoading ?
+                    <Loading/>
                     : null
                 }
 
-                {this.state.errorScreen ?
+                {this.state.isReceivedSongs ?
+                    <Result songs={this.state.songs}/>
+                    : null
+                }
+
+                {this.state.isErrorScreen ?
                     <Error/>
                     : null
                 }
