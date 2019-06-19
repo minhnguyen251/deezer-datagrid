@@ -9,6 +9,8 @@
 	width: 100vw;
 	height: 100vh;
 
+	background-color: rgba(black, 0.5);
+
 	@include flexCenterAll;
 	.bar__ctn {
 		display: inline-block;

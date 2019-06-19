@@ -2,7 +2,7 @@ const Config = {
 
     API: {
         enable_cors_header_url: 'https://cors-anywhere.herokuapp.com/', //For local development only
-        limit_object: 20
+        limit_object: 30
     },
 
     IMAGE: {

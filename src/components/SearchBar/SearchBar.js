@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
-import _ from 'underscore';
 import './SearchBar.scss';
 import Config from '../../Config';
 
 const getUpdateResult = (result) => (prevState) => ({
-    data: prevState.data,
+    oldData: prevState.data,
+    data: [...prevState.data, ...result.data],
     newData: result.data,
     isError: false,
     isFetching: false,
@@ -33,7 +33,6 @@ export default class SearchBar extends Component {
             isSubmitted: false,
             page: 0,
             data: [],
-            newData: [],
         };
         this.submitQuery = this.submitQuery.bind(this);
     };
@@ -49,17 +48,17 @@ export default class SearchBar extends Component {
             return Promise.reject('Request in Progress');
 
         this.setState({isFetching: true});
+        this.props.loading();
         return fetch(
             inputRequest(query, page),
             {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
             })
             .then(response => response.json())
-            .then(result => this.setResult(result, page))
+            .then(result => this.getResult(result, page))
             .catch(error => this.setState(setError))
     }
 
@@ -68,16 +67,34 @@ export default class SearchBar extends Component {
      * @param result
      * @param page
      */
-    setResult = (result, page) => {
+    getResult = (result, page) => {
         page === 0 ?
-            this.setState(setResult(result))
-            : this.setState(getUpdateResult(result));
+            this.setState(setResult(result),this.sendBackData)
+            : this.setState(getUpdateResult(result),this.sendBackData)
+    };
 
-        // Merge into one array without duplicates
-        this.data = _.union(this.state.data, this.state.newData);
+    sendBackData = () => {
         // Disable loading
         this.props.loading();
-        this.props.searchQuery(this.data);
+        this.props.searchQuery(this.arrayUnique(this.state.data));
+    };
+
+    /**
+     * De-duplicate received data based on its id
+     * @param array
+     * @return {Buffer | T[] | string | T[]}
+     */
+    arrayUnique = (array) => {
+        const a = array.concat();
+        for(let i=0; i<a.length; ++i) {
+            for(let j=i+1; j<a.length; ++j) {
+                if(a[i].id === a[j].id) {
+                    a.splice(j--, 1);
+                }
+            }
+        }
+
+        return a;
     };
 
     /**
@@ -100,11 +117,11 @@ export default class SearchBar extends Component {
         this.fetchData(searchVal, 0);
     }
 
+    // Infinite scroll
     onScroll() {
-        let nearBottom = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 10;
+        let nearBottom = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 100;
         if (!this.state.isFetching && nearBottom) {
             this.setState({page: this.state.page + Config.API.limit_object});
-            console.log(this.refInput.value + '----' + this.state.page);
             this.fetchData(this.refInput.value, this.state.page);
         }
     }

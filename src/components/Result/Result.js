@@ -5,16 +5,15 @@ import Config from '../../Config';
 
 export default class Result extends Component {
     render() {
-        const songs = this.props.songs;
-        console.log(songs);
-        let song = songs.map(song => (
+        console.log(this.props.songs);
+        let song = this.props.songs.map(song => (
             <tr key={song.id} className={`id--${song.id}`}>
-                <td>{song.index}</td>
-                <td><img src={song.album.cover} alt={song.album.title}/></td>
-                <td>{song.artist.title}</td>
+                <td className="artist-picture">
+                    <img src={song.artist.picture} alt={song.artist.name}/>
+                </td>
+                <td>{song.title}</td>
                 <td>{song.artist.name}</td>
-                <td></td>
-                <td></td>
+                <td>{song.album.title}</td>
             </tr>
         ));
         return (
@@ -22,12 +21,10 @@ export default class Result extends Component {
                 <table>
                     <thead>
                     <tr>
-                        <th></th>
-                        <th></th>
+                        <th>{Config.TEXT.table.albumName}</th>
                         <th>{Config.TEXT.table.track}</th>
                         <th>{Config.TEXT.table.artist}</th>
                         <th>{Config.TEXT.table.duration}</th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,5 +37,5 @@ export default class Result extends Component {
 }
 
 Error.propTypes = {
-    loading: PropTypes.bool,
+    songs: PropTypes.array,
 };

@@ -1,7 +1,83 @@
+@import "../../sass/modules/variables";
 @import "../../sass/modules/mixins";
 
 .result__ctn {
 	@include flexCenterAll;
+	margin-top: 20vh;
+	padding: 0 10vw;
+	min-height: 80vh;
+	overflow: auto;
 
-	min-height: 90vh;
+	tr > td, tr > th {
+		text-align: left;
+		&:first-child {
+			width: 20%;
+			text-align: center;
+		}
+		&:nth-child(2) {
+			width: 30%;
+		}
+		&:nth-child(3) {
+			width: 30%;
+		}
+		&:nth-child(4) {
+			width: 30%;
+		}
+	}
+
+	tbody {
+
+		tr {
+			&:hover {
+				color: darken($deezerColor1, 40%);
+				font-weight: bold;
+				@include smoothTransition;
+
+				.artist-picture img {
+					transform: rotate(360deg);
+					transition: 2s;
+				}
+			}
+		}
+
+		.artist-picture {
+			position: relative;
+
+			img {
+				width: 100%;
+				height: auto;
+				max-width: 100px;
+				border-radius: 50%;
+				border: 2px solid rgba(black, 0.5);
+			}
+
+			&:after, &:before {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 10px;
+				height: 10px;
+				border-radius: 50%;
+				transform: translate(-50%, -50%);
+				border: 1px solid rgba(black, 0.5);
+				z-index: 1;
+				@include smoothTransition;
+			}
+
+			&:before {
+				width: 30px;
+				height: 30px;
+				border-width: 2px;
+				background-color: lighten($deezerColor1, 10%);
+			}
+
+			&:hover {
+				&:after,&:before {
+					opacity: 0;
+				}
+			}
+		}
+	}
 }
