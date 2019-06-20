@@ -4,6 +4,8 @@
 .app {
 	&__ctn {
 		position: relative;
+		//no supported flexbox
+		display: block;
 		display: flex;
 		flex-direction: column;
 		width: 100vw;

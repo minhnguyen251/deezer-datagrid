@@ -21,6 +21,8 @@
 		}
 
 		form {
+			//no supported flexbox
+			display: inline-block;
 			display: inline-flex;
 			justify-content: center;
 			align-items: center;
@@ -34,9 +36,10 @@
 				border: 0;
 				font-size: 3rem;
 				color: $mainTextColor;
+				border-bottom: 1px solid transparent;
 
 				&:focus {
-					border-bottom: 1px solid $mainTextColor;
+					border-bottom-color: $mainTextColor;
 				}
 
 				&::placeholder {

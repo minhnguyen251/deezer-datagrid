@@ -4,6 +4,8 @@
 }
 
 @mixin flexCenterAll {
+	//no supported flexbox
+	display: block;
 	display: flex;
 	justify-content: center;
 	align-items: center;
