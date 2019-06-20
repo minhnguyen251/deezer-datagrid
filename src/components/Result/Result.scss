@@ -139,6 +139,7 @@
 					}
 					@include maxWidth(480px) {
 						width: 100%;
+						border: 0;
 					}
 				}
 
@@ -168,6 +169,9 @@
 					&:after, &:before {
 						display: none;
 					}
+				}
+				@include maxWidth(480px) {
+					padding: 0;
 				}
 			}
 		}
