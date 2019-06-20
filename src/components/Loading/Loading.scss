@@ -1,6 +1,7 @@
 //Ref: https://codepen.io/tonynguyen25/pen/WxXjJL
 @import "../../sass/modules/variables";
 @import "../../sass/modules/mixins";
+@import "../../sass/modules/keyframes";
 
 .loading__ctn {
 	position: fixed;
@@ -8,6 +9,7 @@
 	left: 0;
 	width: 100vw;
 	height: 100vh;
+	z-index: 10;
 
 	background-color: rgba(black, 0.5);
 
@@ -57,86 +59,5 @@
 			background: $deezerColor4;
 			animation-delay: -4.9s;
 		}
-	}
-}
-
-@keyframes equalize {
-	0% {
-		height: 48px;
-	}
-	4% {
-		height: 42px;
-	}
-	8% {
-		height: 40px;
-	}
-	12% {
-		height: 30px;
-	}
-	16% {
-		height: 20px;
-	}
-	20% {
-		height: 30px;
-	}
-	24% {
-		height: 40px;
-	}
-	28% {
-		height: 10px;
-	}
-	32% {
-		height: 40px;
-	}
-	36% {
-		height: 48px;
-	}
-	40% {
-		height: 20px;
-	}
-	44% {
-		height: 40px;
-	}
-	48% {
-		height: 48px;
-	}
-	52% {
-		height: 30px;
-	}
-	56% {
-		height: 10px;
-	}
-	60% {
-		height: 30px;
-	}
-	64% {
-		height: 48px;
-	}
-	68% {
-		height: 30px;
-	}
-	72% {
-		height: 48px;
-	}
-	76% {
-		height: 20px;
-	}
-	80% {
-		height: 48px;
-	}
-	84% {
-		height: 38px;
-	}
-	88% {
-		height: 48px;
-	}
-	92% {
-		height: 20px;
-	}
-	96% {
-		height: 48px;
-	}
-	100% {
-		height: 48px;
 	}
 }

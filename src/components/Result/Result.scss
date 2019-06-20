@@ -1,82 +1,164 @@
 @import "../../sass/modules/variables";
 @import "../../sass/modules/mixins";
+@import "../../sass/modules/keyframes";
+@import "../../sass/components/arrow";
 
 .result__ctn {
 	@include flexCenterAll;
-	margin-top: 20vh;
-	padding: 0 10vw;
+	margin-top: 10vh;
+	padding: 0 5vw;
 	min-height: 80vh;
 	overflow: auto;
 
-	tr > td, tr > th {
-		text-align: left;
-		&:first-child {
-			width: 20%;
-			text-align: center;
-		}
-		&:nth-child(2) {
-			width: 30%;
-		}
-		&:nth-child(3) {
-			width: 30%;
-		}
-		&:nth-child(4) {
-			width: 30%;
-		}
-	}
+	table {
+		table-layout: fixed;
 
-	tbody {
+		tr > td, tr > th {
+			text-align: left;
 
-		tr {
-			&:hover {
-				color: darken($deezerColor1, 40%);
-				font-weight: bold;
+			&:first-child {
+				width: 150px;
+				text-align: center;
+			}
+
+			&:nth-child(2) {
+				width: 300px;
+			}
+
+			&:nth-child(3) {
+				width: 150px;
+			}
+
+			&:nth-child(4) {
+				width: 250px;
+			}
+
+			&:last-of-type {
+				width: 150px;
+			}
+		}
+
+		thead th {
+			position: relative;
+			padding: 30px 0;
+			cursor: pointer;
+
+			&:after {
+				display: inline-block;
+				transform: translateY(-50%);
+				margin-left: 10px;
+
 				@include smoothTransition;
+			}
 
-				.artist-picture img {
-					transform: rotate(360deg);
-					transition: 2s;
+			&.sort--ascending:after {
+				content: '';
+				@extend .arrow-down;
+			}
+
+			&.sort--descending:after {
+				content: '';
+				@extend .arrow-up;
+			}
+		}
+
+		tbody {
+			tr {
+				width: 110px;
+
+				&:hover {
+					color: darken($deezerColor3, 40%);
+					font-weight: bold;
+					@include smoothTransition;
+
+					.artist-picture {
+						&:before, &:after {
+							opacity: 0;
+						}
+
+						img {
+							animation: trackPlaying 2s ease forwards;
+						}
+					}
+				}
+			}
+
+			td.artist-picture {
+				position: relative;
+
+				.img__ctn {
+					position: relative;
+					width: 100%;
+					height: auto;
+					max-width: 100px;
+
+					margin: 0 auto;
+
+					border-radius: 50%;
+					border: 2px solid rgba(black, 0.5);
+
+					overflow: hidden;
+
+					&:after {
+						content: "";
+						display: block;
+						padding-bottom: 100%;
+					}
+
+					&:hover:before {
+						opacity: 1;
+						visibility: visible;
+					}
+
+					img {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: auto;
+						z-index: 1;
+
+						&:hover:before {
+							display: block;
+						}
+					}
+				}
+
+				&:after, &:before {
+					content: '';
+					display: block;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					width: 10px;
+					height: 10px;
+					border-radius: 50%;
+					transform: translate(-50%, -50%);
+					border: 1px solid rgba(black, 0.5);
+					z-index: 2;
+					@include smoothTransition;
+				}
+
+				&:before {
+					width: 30px;
+					height: 30px;
+					border-width: 2px;
+					background-color: lighten($deezerColor3, 10%);
 				}
 			}
 		}
 
-		.artist-picture {
+		td, th {
 			position: relative;
 
-			img {
-				width: 100%;
-				height: auto;
-				max-width: 100px;
-				border-radius: 50%;
-				border: 2px solid rgba(black, 0.5);
-			}
-
-			&:after, &:before {
+			.resize-handle {
 				content: '';
-				display: block;
 				position: absolute;
-				top: 50%;
-				left: 50%;
-				width: 10px;
-				height: 10px;
-				border-radius: 50%;
-				transform: translate(-50%, -50%);
-				border: 1px solid rgba(black, 0.5);
-				z-index: 1;
-				@include smoothTransition;
-			}
-
-			&:before {
-				width: 30px;
-				height: 30px;
-				border-width: 2px;
-				background-color: lighten($deezerColor1, 10%);
-			}
-
-			&:hover {
-				&:after,&:before {
-					opacity: 0;
-				}
+				right: 0;
+				width: 5px;
+				height: 100%;
+				background-color: red;
+				cursor: col-resize;
 			}
 		}
 	}

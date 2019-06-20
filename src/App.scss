@@ -3,6 +3,7 @@
 
 .app {
 	&__ctn {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		width: 100vw;
@@ -10,10 +11,37 @@
 
 		@include smoothTransition;
 
-		background-image: linear-gradient(to right, $deezerColor1, $deezerColor2);
+		&:before, &:after {
+			content: '';
+			display: block;
+
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			z-index: -1;
+
+			@include smoothTransition(2s);
+		}
+
+		&:before {
+			background-image: linear-gradient(to right, $deezerColor1, $deezerColor2);
+		}
+
+		&:after {
+			opacity: 0;
+			background-image: linear-gradient(to right, $deezerColor3, $deezerColor4);
+		}
 	}
 
 	&--submitted {
-		background-image: linear-gradient(to right, $deezerColor3, $deezerColor4);
+		&:before {
+			opacity: 0;
+		}
+
+		&:after {
+			opacity: 1;
+		}
 	}
 }

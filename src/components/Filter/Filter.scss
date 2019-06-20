@@ -1,0 +1,10 @@
+@import "../../sass/modules/variables";
+@import "../../sass/modules/mixins";
+@import "../../sass/modules/keyframes";
+@import "../../sass/components/arrow";
+
+.filter__input {
+	position: fixed;
+	top: 20vh;
+	left: 0;
+}

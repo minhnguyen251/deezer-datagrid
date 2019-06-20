@@ -1,34 +1,150 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
+import DataHelper from "../../helpers/DataHelper"
+import Filter from "../Filter/Filter"
 import './Result.scss';
 import Config from '../../Config';
 
 export default class Result extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            filterValue: '',
+            itemClicked: '',
+            isAscendingSort: true,
+            songs: [],
+        };
+        // this.handleFilter = this.handleFilter.bind(this);
+
+        /*this.onDragStart = this.onDragStart.bind(this);
+        this.onDrop = this.onDrop.bind(this);
+        this.onDragging = this.onDragging.bind(this);*/
+
+        /*this.pos = null;
+        this.cell = null;
+        this.pressed = false;*/
+    }
+
+    componentDidMount() {
+        this.setState({songs: this.props.songs})
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.songs !== prevProps.songs) {
+            this.setState({songs: this.props.songs})
+        }
+    }
+
+    handleFilter = (val) => {
+        this.setState({filterValue: val});
+    };
+
+    // Sort songs by column
+    onSort = (event) => {
+        const target = event.target;
+
+        const key1 = target.getAttribute('data-key1');
+        const hasParam2 = target.hasAttribute('data-key2');
+        const key2 = hasParam2 ? target.getAttribute('data-key2') : 0;
+        let songs = this.state.songs;
+        let ascending = this.state.isAscendingSort;
+
+        this.setState({itemClicked: key1});
+        this.setState({isAscendingSort: !this.state.isAscendingSort});
+        DataHelper.sortSongs(songs, key1, key2, ascending);
+        this.setState({songs: songs});
+    };
+
+    /**
+     *
+     * @param {string} item
+     * @return {string}
+     */
+    setClassname(item) {
+        return this.state.itemClicked === item ? (this.state.isAscendingSort ? 'sort--ascending' : 'sort--descending') : 'sort--ascending';
+    }
+
+    /*onDragStart(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.cell = event.target.parentNode;
+        this.pos = this.cell.getBoundingClientRect();
+        this.pressed = true;
+    };
+
+    onDragging(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (this.pressed) {
+            this.cell.style.width = event.nativeEvent.clientX - this.pos + 'px';
+            console.log("dragging");
+        }
+
+        document.addEventListener('mouseup', () => {
+            this.pressed = false;
+            console.log("droped");
+        }, false);
+    };
+
+    onDrop(event) {
+        this.pressed = false;
+    };*/
+
     render() {
-        console.log(this.props.songs);
-        let song = this.props.songs.map(song => (
-            <tr key={song.id} className={`id--${song.id}`}>
+        let songs = this.state.songs;
+        let filterValue = this.state.filterValue.trim().toLowerCase();
+        if (filterValue.length > 0) {
+            songs = songs.filter(item => item.title.toLowerCase().match(filterValue))
+        }
+        let song = songs.map(song => (
+            <tr key={song.id}>
                 <td className="artist-picture">
-                    <img src={song.artist.picture} alt={song.artist.name}/>
+                    <div className="img__ctn">
+                        <img src={song.album.cover} alt={song.album.title}/>
+                    </div>
                 </td>
-                <td>{song.title}</td>
-                <td>{song.artist.name}</td>
-                <td>{song.album.title}</td>
+                <td>
+                    {DataHelper.reformatString(song.title)}</td>
+                <td>
+                    {DataHelper.reformatString(song.artist.name)}</td>
+                <td>
+                    {DataHelper.reformatString(song.album.title)}</td>
+                <td>
+                    {DataHelper.convertSecToMin(song.duration)}
+                </td>
             </tr>
         ));
+        let classNames = {
+            title: this.setClassname('title'),
+            artist: this.setClassname('artist'),
+            album: this.setClassname('album'),
+            duration: this.setClassname('duration')
+        };
+
         return (
             <div className="result__ctn">
+                <Filter filter={this.handleFilter}/>
                 <table>
                     <thead>
                     <tr>
-                        <th>{Config.TEXT.table.albumName}</th>
-                        <th>{Config.TEXT.table.track}</th>
-                        <th>{Config.TEXT.table.artist}</th>
-                        <th>{Config.TEXT.table.duration}</th>
+                        <th/>
+                        <th data-key1="title" onClick={this.onSort} className={classNames.title}>
+                            {Config.TEXT.table.track}
+                        </th>
+                        <th data-key1="artist" data-key2="name" onClick={this.onSort} className={classNames.artist}>
+                            {Config.TEXT.table.artist}
+                        </th>
+                        <th data-key1="album" data-key2="title" onClick={this.onSort} className={classNames.album}>
+                            {Config.TEXT.table.albumName}
+                        </th>
+                        <th data-key1="duration" onClick={this.onSort} className={classNames.duration}>
+                            {Config.TEXT.table.duration}
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
-                    {song}
+                        {song}
                     </tbody>
                 </table>
             </div>
@@ -36,6 +152,6 @@ export default class Result extends Component {
     }
 }
 
-Error.propTypes = {
+Result.propTypes = {
     songs: PropTypes.array,
 };

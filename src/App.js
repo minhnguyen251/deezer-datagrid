@@ -23,7 +23,7 @@ export default class App extends Component {
 
     render() {
         return (
-            <div className={`app__ctn ${this.state.isSubmitted ? 'app--submitted' : ''}`}>
+            <div className={`app__ctn ${this.state.isReceivedSongs ? 'app--submitted' : ''}`}>
 
                 <SearchBar searchQuery={this.handleSearchQuery}
                            loading={this.handleLoading}

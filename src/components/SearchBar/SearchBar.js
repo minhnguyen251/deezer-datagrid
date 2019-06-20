@@ -2,26 +2,23 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import './SearchBar.scss';
 import Config from '../../Config';
+import DataHelper from "../../helpers/DataHelper";
 
+// Set state when updating results
 const getUpdateResult = (result) => (prevState) => ({
-    oldData: prevState.data,
     data: [...prevState.data, ...result.data],
-    newData: result.data,
     isError: false,
     isFetching: false,
 });
 
+// Set state when first getting results
 const setResult = (result) => () => ({
     data: result.data,
     isError: false,
     isFetching: false,
 });
 
-const setError = () => ({
-    isError: true,
-    isFetching: false,
-});
-
+// API url for fetching
 const inputRequest = (query, page) => `${Config.API.enable_cors_header_url}https://api.deezer.com/search?q=track:"${query}"&limit=${Config.API.limit_object}&index=${page}`;
 
 export default class SearchBar extends Component {
@@ -29,7 +26,6 @@ export default class SearchBar extends Component {
         super(props);
         this.state = {
             isFetching: false,
-            isError: false,
             isSubmitted: false,
             page: 0,
             data: [],
@@ -38,7 +34,7 @@ export default class SearchBar extends Component {
     };
 
     /**
-     * Promise function to fetch data from API
+     * Fetch data from API
      * @param query:string
      * @param page:number
      * @return {Promise<{}>|Promise<Response | {}>}
@@ -59,11 +55,11 @@ export default class SearchBar extends Component {
             })
             .then(response => response.json())
             .then(result => this.getResult(result, page))
-            .catch(error => this.setState(setError))
+            .catch(error => this.props.errorScreen)
     }
 
     /**
-     *
+     * Get results based on page
      * @param result
      * @param page
      */
@@ -73,28 +69,11 @@ export default class SearchBar extends Component {
             : this.setState(getUpdateResult(result),this.sendBackData)
     };
 
+    // Send data to other components
     sendBackData = () => {
         // Disable loading
         this.props.loading();
-        this.props.searchQuery(this.arrayUnique(this.state.data));
-    };
-
-    /**
-     * De-duplicate received data based on its id
-     * @param array
-     * @return {Buffer | T[] | string | T[]}
-     */
-    arrayUnique = (array) => {
-        const a = array.concat();
-        for(let i=0; i<a.length; ++i) {
-            for(let j=i+1; j<a.length; ++j) {
-                if(a[i].id === a[j].id) {
-                    a.splice(j--, 1);
-                }
-            }
-        }
-
-        return a;
+        this.props.searchQuery(DataHelper.arrayUnique(this.state.data));
     };
 
     /**
@@ -156,6 +135,5 @@ export default class SearchBar extends Component {
 SearchBar.propTypes = {
     searchQuery: PropTypes.func.isRequired,
     errorScreen: PropTypes.func.isRequired,
-    loading: PropTypes.func.isRequired,
-    receivedSongs: PropTypes.func,
+    loading: PropTypes.func.isRequired
 };

@@ -19,7 +19,8 @@ const Config = {
             artist: 'Artist',
             albumName: 'Album',
             duration: 'Duration'
-        }
+        },
+        filter_text: 'Type to filter by track title'
     }
 };
 export default Config;
