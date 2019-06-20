@@ -11,7 +11,7 @@ const Config = {
 
     TEXT: {
         search_btn: 'Search Button',
-        error_message: 'Server busy. Please try again later',
+        error_message: 'Server busy. Please try again later.',
         search_input_placeholder: 'Relax and take a song',
         isLoading: 'Loading icon',
         table: {

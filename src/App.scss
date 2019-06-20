@@ -43,5 +43,8 @@
 		&:after {
 			opacity: 1;
 		}
+		.search--submitted:hover {
+			background-color: rgba(lighten($deezerColor3, 20%), 0.8);
+		}
 	}
 }
