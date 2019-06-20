@@ -11,6 +11,7 @@ export default class App extends Component {
         super(props);
         this.state = {
             numberScrollingToBottom: 0,
+            isFiltering: false,
             isLoading: false,
             isReceivedSongs: false,
             isErrorScreen: false,
@@ -22,15 +23,18 @@ export default class App extends Component {
     handleSearchQuery = (data) => this.setState({songs: data, isReceivedSongs: true});
     handleErrorScreen = () => this.setState({isErrorScreen: true});
     handleScrollingToBottom = () => this.setState({numberScrollingToBottom: this.state.numberScrollingToBottom + 1});
+    handleIsFiltering = (state) => this.setState({isFiltering: state});
 
     render() {
+        console.log(this.state.isFiltering);
         return (
             <div className={`app__ctn ${this.state.isReceivedSongs ? 'app--submitted' : ''}`}>
 
                 <SearchBar searchQuery={this.handleSearchQuery}
                            loading={this.handleLoading}
                            errorScreen={this.handleErrorScreen}
-                           isScrollingToBottom={this.state.numberScrollingToBottom}/>
+                           isScrollingToBottom={this.state.numberScrollingToBottom}
+                           isFiltering={this.state.isFiltering}/>
 
                 {this.state.isLoading ?
                     <Loading/>
@@ -39,7 +43,8 @@ export default class App extends Component {
 
                 {this.state.isReceivedSongs ?
                     <Result songs={this.state.songs}
-                            isScrollingToBottom={this.handleScrollingToBottom}/>
+                            isScrollingToBottom={this.handleScrollingToBottom}
+                            isFiltering={this.handleIsFiltering}/>
                     : null
                 }
 

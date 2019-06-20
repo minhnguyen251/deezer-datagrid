@@ -7,16 +7,26 @@ export default class Filter extends Component {
     constructor(props) {
         super(props);
         this.onKeyUpFilter = this.onKeyUpFilter.bind(this);
+        this.onBlur = this.onBlur.bind(this);
+        this.onFocus = this.onFocus.bind(this);
     }
 
     onKeyUpFilter(event) {
         this.props.filter(event.target.value);
     }
 
+    onFocus() {
+        this.props.isFiltering(true);
+    }
+
+    onBlur() {
+        this.props.isFiltering(false);
+    }
+
     render() {
         return (
             <div className="filter__input">
-                <input onKeyUp={this.onKeyUpFilter} placeholder={Config.TEXT.filter_text}/>
+                <input onKeyUp={this.onKeyUpFilter} onBlur={this.onBlur} onFocus={this.onFocus} placeholder={Config.TEXT.filter_text}/>
             </div>
         )
     }
@@ -24,4 +34,5 @@ export default class Filter extends Component {
 
 Filter.propTypes = {
     filter: PropTypes.func,
+    isFiltering: PropTypes.func
 };

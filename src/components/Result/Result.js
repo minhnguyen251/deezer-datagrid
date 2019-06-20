@@ -133,7 +133,8 @@ export default class Result extends Component {
 
         return (
             <div className="result__ctn">
-                <Filter filter={this.handleFilter}/>
+                <Filter filter={this.handleFilter}
+                        isFiltering={this.props.isFiltering}/>
                 <table>
                     <thead>
                     <tr>
@@ -163,5 +164,6 @@ export default class Result extends Component {
 
 Result.propTypes = {
     songs: PropTypes.array,
-    isScrollingToBottom: PropTypes.func
+    isScrollingToBottom: PropTypes.func,
+    isFiltering: PropTypes.func
 };
