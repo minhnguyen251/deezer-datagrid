@@ -10,6 +10,7 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            numberScrollingToBottom: 0,
             isLoading: false,
             isReceivedSongs: false,
             isErrorScreen: false,
@@ -20,6 +21,7 @@ export default class App extends Component {
     handleLoading = () => this.setState({isLoading: !this.state.isLoading});
     handleSearchQuery = (data) => this.setState({songs: data, isReceivedSongs: true});
     handleErrorScreen = () => this.setState({isErrorScreen: true});
+    handleScrollingToBottom = () => this.setState({numberScrollingToBottom: this.state.numberScrollingToBottom + 1});
 
     render() {
         return (
@@ -27,7 +29,8 @@ export default class App extends Component {
 
                 <SearchBar searchQuery={this.handleSearchQuery}
                            loading={this.handleLoading}
-                           errorScreen={this.handleErrorScreen}/>
+                           errorScreen={this.handleErrorScreen}
+                           isScrollingToBottom={this.state.numberScrollingToBottom}/>
 
                 {this.state.isLoading ?
                     <Loading/>
@@ -35,7 +38,8 @@ export default class App extends Component {
                 }
 
                 {this.state.isReceivedSongs ?
-                    <Result songs={this.state.songs}/>
+                    <Result songs={this.state.songs}
+                            isScrollingToBottom={this.handleScrollingToBottom}/>
                     : null
                 }
 

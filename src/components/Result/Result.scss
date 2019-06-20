@@ -137,6 +137,9 @@
 					@include maxWidth(767px) {
 						width: 70%;
 					}
+					@include maxWidth(480px) {
+						width: 100%;
+					}
 				}
 
 				&:after, &:before {
@@ -193,7 +196,15 @@
 				padding: 5px;
 			}
 			tr > th {
+				font-size: 0.9rem;
 				text-align: center;
+				&:after {
+					position: absolute;
+					left: 50%;
+					bottom: 15px;
+					transform: translate(-50%,-50%);
+					margin: 0;
+				}
 			}
 		}
 	}

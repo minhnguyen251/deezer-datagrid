@@ -84,6 +84,9 @@
 		background-image: linear-gradient(to top, rgba(lighten($deezerColor3, 20%), 0.7), rgba(black, 0));
 		form {
 			max-width: 400px;
+			@include maxWidth(480px) {
+				max-width: 300px;
+			}
 			input {
 				font-size: 2rem;
 				height: 2.5rem;

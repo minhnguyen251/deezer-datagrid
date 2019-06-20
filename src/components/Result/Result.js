@@ -25,16 +25,6 @@ export default class Result extends Component {
         this.pressed = false;*/
     }
 
-    componentDidMount() {
-        this.setState({songs: this.props.songs})
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.songs !== prevProps.songs) {
-            this.setState({songs: this.props.songs})
-        }
-    }
-
     handleFilter = (val) => {
         this.setState({filterValue: val});
     };
@@ -88,6 +78,27 @@ export default class Result extends Component {
     onDrop(event) {
         this.pressed = false;
     };*/
+    onScroll() {
+        let nearBottom = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 100;
+        if (nearBottom) {
+            this.props.isScrollingToBottom();
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener("scroll", this.onScroll.bind(this));
+        this.setState({songs: this.props.songs})
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.songs !== prevProps.songs) {
+            this.setState({songs: this.props.songs})
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("scroll", this.onScroll.bind(this));
+    }
 
     render() {
         let songs = this.state.songs;
@@ -152,4 +163,5 @@ export default class Result extends Component {
 
 Result.propTypes = {
     songs: PropTypes.array,
+    isScrollingToBottom: PropTypes.func
 };

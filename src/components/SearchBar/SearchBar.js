@@ -21,13 +21,15 @@ const setResult = (result) => () => ({
 // API url for fetching
 const inputRequest = (query, page) => `${Config.API.enable_cors_header_url}https://api.deezer.com/search?q=track:"${query}"&limit=${Config.API.limit_object}&index=${page}`;
 
+let page = 0;
+
 export default class SearchBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isScrolling: false,
             isFetching: false,
             isSubmitted: false,
-            page: 0,
             data: [],
         };
         this.submitQuery = this.submitQuery.bind(this);
@@ -45,6 +47,7 @@ export default class SearchBar extends Component {
 
         this.setState({isFetching: true});
         this.props.loading();
+        console.log(query + '---' +page);
         return fetch(
             inputRequest(query, page),
             {
@@ -96,22 +99,15 @@ export default class SearchBar extends Component {
         this.fetchData(searchVal, 0);
     }
 
-    // Infinite scroll
-    onScroll() {
-        let nearBottom = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 100;
-        if (!this.state.isFetching && nearBottom) {
-            this.setState({page: this.state.page + Config.API.limit_object});
-            this.fetchData(this.refInput.value, this.state.page);
-        }
-    }
-
     componentDidMount() {
         this.refInput.focus();
-        window.addEventListener("scroll", this.onScroll.bind(this));
     }
 
-    componentWillUnmount() {
-        window.removeEventListener("scroll", this.onScroll.bind(this));
+    componentDidUpdate(nextProps) {
+        if(nextProps.isScrollingToBottom !== this.props.isScrollingToBottom && !this.state.isFetching) {
+            page += Config.API.limit_object;
+            this.fetchData(this.refInput.value, page);
+        }
     }
 
     render() {
@@ -135,5 +131,6 @@ export default class SearchBar extends Component {
 SearchBar.propTypes = {
     searchQuery: PropTypes.func.isRequired,
     errorScreen: PropTypes.func.isRequired,
-    loading: PropTypes.func.isRequired
+    loading: PropTypes.func.isRequired,
+    isScrollingToBottom: PropTypes.number,
 };
