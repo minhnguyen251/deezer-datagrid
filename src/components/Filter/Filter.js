@@ -19,8 +19,9 @@ export default class Filter extends Component {
         this.props.isFiltering(true);
     }
 
-    onBlur() {
-        this.props.isFiltering(false);
+    onBlur(event) {
+        if (!event.target.value)
+            this.props.isFiltering(false);
     }
 
     render() {
