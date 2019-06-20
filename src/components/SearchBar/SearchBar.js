@@ -103,7 +103,6 @@ export default class SearchBar extends Component {
     }
 
     componentDidUpdate(nextProps) {
-        console.log(this.props.isFiltering);
         if(nextProps.isScrollingToBottom !== this.props.isScrollingToBottom && !this.state.isFetching && !this.props.isFiltering) {
             page += Config.API.limit_object;
             this.fetchData(this.refInput.value, page);

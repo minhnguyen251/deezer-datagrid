@@ -26,7 +26,6 @@ export default class App extends Component {
     handleIsFiltering = (state) => this.setState({isFiltering: state});
 
     render() {
-        console.log(this.state.isFiltering);
         return (
             <div className={`app__ctn ${this.state.isReceivedSongs ? 'app--submitted' : ''}`}>
 
