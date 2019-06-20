@@ -78,12 +78,10 @@ export default class Result extends Component {
 
         if (this.pressed) {
             this.cell.style.width = event.nativeEvent.clientX - this.pos + 'px';
-            console.log("dragging");
         }
 
         document.addEventListener('mouseup', () => {
             this.pressed = false;
-            console.log("droped");
         }, false);
     };
 

@@ -102,7 +102,6 @@ export default class SearchBar extends Component {
         if (!this.state.isFetching && nearBottom) {
             this.setState({page: this.state.page + Config.API.limit_object});
             this.fetchData(this.refInput.value, this.state.page);
-            console.log("ok");
         }
     }
 
